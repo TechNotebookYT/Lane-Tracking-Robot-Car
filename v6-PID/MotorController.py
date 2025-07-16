@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+from gpiozero import Motor
 
 class MotorController():
     """
@@ -9,118 +9,78 @@ class MotorController():
 
     # Initialize Pin Setup
     def __init__(self, leftMotors, rightMotors, leftBias=1, rightBias=1):
-        self.leftMotorsEnable, self.leftMotorsForward, self.leftMotorsReverse = leftMotors
-        self.rightMotorsEnable, self.rightMotorsForward, self.rightMotorsReverse = rightMotors
+        # leftMotors and rightMotors are tuples: (forward_pin, reverse_pin)
+        self.leftMotor = Motor(forward=leftMotors[1], backward=leftMotors[2])
+        self.rightMotor = Motor(forward=rightMotors[1], backward=rightMotors[2])
 
         self.leftBias = leftBias
         self.rightBias = rightBias
 
-        self.setup()
-
-    # Sets the pinmode as well as the output pins
-    def setup(self):
-        GPIO.setmode(GPIO.BCM)
-
-        GPIO.setup(self.leftMotorsEnable, GPIO.OUT)
-        GPIO.setup(self.rightMotorsEnable, GPIO.OUT)
-        
-        GPIO.setup(self.leftMotorsForward, GPIO.OUT)
-        GPIO.setup(self.leftMotorsReverse, GPIO.OUT)
-        GPIO.setup(self.rightMotorsForward, GPIO.OUT)
-        GPIO.setup(self.rightMotorsReverse, GPIO.OUT)
-
-        self.leftMotorsPWM = GPIO.PWM(self.leftMotorsEnable, 100);
-        self.rightMotorsPWM = GPIO.PWM(self.rightMotorsEnable, 100);
-
-        self.rightMotorsPWM.start(0);
-        self.leftMotorsPWM.start(0);
-
     # Moves all wheels forward
     def moveForward(self, speed=50):
         # print("Forward") # Debug
-
-        self.leftMotorsPWM.ChangeDutyCycle(int(speed*self.leftBias))
-        self.rightMotorsPWM.ChangeDutyCycle(speed)
-
-        GPIO.output(self.leftMotorsForward, True)
-        GPIO.output(self.leftMotorsReverse, False)
-        GPIO.output(self.rightMotorsForward, True)
-        GPIO.output(self.rightMotorsReverse, False)
+        left_power = speed / 100.0 * self.leftBias
+        right_power = speed / 100.0 * self.rightBias
+        self.leftMotor.forward(speed=left_power)
+        self.rightMotor.forward(speed=right_power)
 
      # Moves all wheels in reverse
     def moveReverse(self, speed=50):
         # print("Reverse") # Debug
-
-        self.leftMotorsPWM.ChangeDutyCycle(int(speed*self.leftBias))
-        self.rightMotorsPWM.ChangeDutyCycle(int(speed*self.rightBias))
-
-        GPIO.output(self.leftMotorsForward, False)
-        GPIO.output(self.leftMotorsReverse, True)
-        GPIO.output(self.rightMotorsForward, False)
-        GPIO.output(self.rightMotorsReverse, True)
+        left_power = speed / 100.0 * self.leftBias
+        right_power = speed / 100.0 * self.rightBias
+        self.leftMotor.backward(speed=left_power)
+        self.rightMotor.backward(speed=right_power)
 
     # Steers the car based on a turn value
     def steer(self, speed=40, turn=0):
         """
         Moves the car forward, adjusting wheel speeds for turning.
-        :param speed: The base speed of the car (0-100).
-        :param turn: The turning value (-100 to 100).
+        :param speed: The base speed of the car (0-100, converted to 0-1 for gpiozero).
+        :param turn: The turning value (-100 to 100, converted to 0-1 for gpiozero).
                      Positive values turn right, negative values turn left.
         """
         leftSpeed = speed + turn
         rightSpeed = speed - turn
 
-        # Clamp speeds to be within 0-100 range for PWM
+        # Clamp speeds to be within 0-100 range
         leftSpeed = max(0, min(100, leftSpeed))
         rightSpeed = max(0, min(100, rightSpeed))
 
-        self.leftMotorsPWM.ChangeDutyCycle(int(leftSpeed * self.leftBias))
-        self.rightMotorsPWM.ChangeDutyCycle(int(rightSpeed * self.rightBias))
+        # Convert to 0-1 range for gpiozero
+        left_power = leftSpeed / 100.0 * self.leftBias
+        right_power = rightSpeed / 100.0 * self.rightBias
 
-        # Ensure both motors are driving forward
-        GPIO.output(self.leftMotorsForward, True)
-        GPIO.output(self.leftMotorsReverse, False)
-        GPIO.output(self.rightMotorsForward, True)
-        GPIO.output(self.rightMotorsReverse, False)
+        # Apply power to motors
+        # Assuming positive speed means forward
+        self.leftMotor.forward(speed=left_power)
+        self.rightMotor.forward(speed=right_power)
 
     # Turns left wheels reverse, and right wheels forward
     def turnLeft(self, speed=50):
         # print("left") # Debug
-
-        self.leftMotorsPWM.ChangeDutyCycle(int(speed*0.9*self.leftBias))
-        self.rightMotorsPWM.ChangeDutyCycle(int(speed*1.1*self.rightBias))
-
-        GPIO.output(self.leftMotorsForward, False)
-        GPIO.output(self.leftMotorsReverse, False)
-        GPIO.output(self.rightMotorsForward, True)
-        GPIO.output(self.rightMotorsReverse, False)
+        # This method might need re-evaluation with the new steer method
+        # For now, a simple implementation: left motor stops, right motor goes forward
+        self.leftMotor.stop()
+        self.rightMotor.forward(speed=speed / 100.0 * self.rightBias)
 
     # Turns left wheels forward, and right wheels reverse
     def turnRight(self, speed=50):
         # print("right") # Debug
-
-        self.leftMotorsPWM.ChangeDutyCycle(int(speed*self.leftBias))
-        self.rightMotorsPWM.ChangeDutyCycle(int(speed*self.rightBias))
-
-        GPIO.output(self.leftMotorsForward, True)
-        GPIO.output(self.leftMotorsReverse, False)
-        GPIO.output(self.rightMotorsForward, False)
-        GPIO.output(self.rightMotorsReverse, False)
+        # This method might need re-evaluation with the new steer method
+        # For now, a simple implementation: right motor stops, left motor goes forward
+        self.leftMotor.forward(speed=speed / 100.0 * self.leftBias)
+        self.rightMotor.stop()
 
     # Stops all wheels
     def stop(self):
         # print("Stop") # Debug
-        
-        self.leftMotorsPWM.ChangeDutyCycle(0)
-        self.rightMotorsPWM.ChangeDutyCycle(0)
-
-        GPIO.output(self.leftMotorsForward, True)
-        GPIO.output(self.leftMotorsReverse, False)
-        GPIO.output(self.rightMotorsForward, True)
-        GPIO.output(self.rightMotorsReverse, False)
+        self.leftMotor.stop()
+        self.rightMotor.stop()
 
     # Clears all setup on pins
     def exit(self):
-        GPIO.cleanup()
-    
-        
+        # gpiozero handles cleanup automatically on program exit,
+        # but explicitly closing motors is good practice.
+        self.leftMotor.close()
+        self.rightMotor.close()
