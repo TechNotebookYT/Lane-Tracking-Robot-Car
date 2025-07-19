@@ -3,7 +3,7 @@ import cv2
 vCapture = cv2.VideoCapture(0) # Captures from USB Webcam
 
 # Retrieves Image from Camera & Resizes
-def getImg(imgSize=[480,240]):
+def getImg(imgSize=[360,240]): #prev (420x240)
     success, img = vCapture.read()
     img = cv2.resize(img,(imgSize[0],imgSize[1]))
     return img
