@@ -23,7 +23,7 @@ def warpImg(img, points, w, h, inv=False):
     return imgWarp
 
 # Initializes the Array of points needed for warp
-def initWarpPointsArray(values, wT=480, hT=240):
+def initWarpPointsArray(values, wT=360, hT=240):
     widthTop = values[0]
     heightTop = values[1]
     widthBottom = values[2]

@@ -7,15 +7,15 @@ def getLaneCurve(img):
     thresholdImage = utils.thresholding(img)
 
     h, w, c = img.shape
-    points = utils.initWarpPointsArray([102, 80, 20, 214])
+    points = utils.initWarpPointsArray([76, 60, 15, 161])
     imgWarp = utils.warpImg(thresholdImage, points, w, h)
 
-    cv2.imshow('warp', imgWarp)
+    # cv2.imshow('warp', imgWarp)
 
     curve = check_white_pixels(thresholdImage)
 
     print(curve)
-    return curve 
+    return curve, imgWarp 
 
 
 def check_white_pixels(frame):
