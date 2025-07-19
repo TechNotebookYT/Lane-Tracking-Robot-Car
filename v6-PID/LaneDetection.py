@@ -3,7 +3,11 @@ import numpy as np
 import utils
 
 def getLaneCurve(img):
-    
+    """
+    Get Lane Curve
+    --
+    This module calculates the lane curve from an input image.
+    """
     thresholdImage = utils.thresholding(img)
 
     h, w, c = img.shape
@@ -18,8 +22,18 @@ def getLaneCurve(img):
     return curve, imgWarp 
 
 
-def check_white_pixels(frame):
-    
+def check_white_pixels(frame):    
+    """
+    Calculates the balance of white pixels in the left and right two-fifths of the frame.
+
+    Args:
+        frame (numpy.ndarray): The input image frame (grayscale, thresholded).
+
+    Returns:
+        int: A value between -100 and 100 indicating the balance of white pixels.
+             Positive values mean more white pixels on the right, negative on the left.
+    """
+
     # Calculate the height of the top 2 thirds
     height = frame.shape[0] * 2 // 3
     

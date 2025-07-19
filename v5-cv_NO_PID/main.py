@@ -10,11 +10,11 @@ car = MotorController((2, 3, 4), (22, 27, 17), leftBias=1, rightBias=1)
 
  
 def main():
-    img = WebcamMod.getImg()
-    curveVal, frame = getLaneCurve(img)
+    img = WebcamMod.getImg() # Get image from WebcamMod module
+    curveVal, frame = getLaneCurve(img) # calculate lane curve
     streamer.update_image(frame)
     
-    threshold_to_turn = 30
+    threshold_to_turn = 30 # Threshold for when to turn the robot
     
     # Check to turn right
     if curveVal > threshold_to_turn:
@@ -45,5 +45,5 @@ try:
 finally:
     car.stop() # Stops the Car
     time.sleep(0.2)
-    # car.exit() # Runs Pin Cleanup script
+    # car.exit() # ! Runs Pin Cleanup script (for some reason my pi acts weird when this line run)
     streamer.stop() # Stops the Image Streamer

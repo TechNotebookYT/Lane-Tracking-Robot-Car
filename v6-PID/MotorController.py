@@ -1,4 +1,9 @@
-# remote_control.py
+"""
+This module handles the motor control for the robot.
+
+It also provides you with manual robot control functionality.
+To use this feature, run this file as a script.
+"""
 
 import RPi.GPIO as GPIO
 import curses
@@ -104,7 +109,7 @@ def main(stdscr):
 
     # --- ⚙️ PIN CONFIGURATION ---
     # !!! IMPORTANT !!!
-    # Replace these placeholder pin numbers with the actual BCM pin numbers 
+    # Replace these placeholder pin numbers with the actual BCM pin numbers (https://pinout.xyz)
     # you have connected to your motor driver.
     # Format: (Enable Pin, Forward Pin, Reverse Pin)
     LEFT_MOTORS = (2, 3, 4)  # Example: (EN_A, IN1, IN2)
@@ -155,6 +160,7 @@ def main(stdscr):
                 robot.stop()
             # # If no key is pressed, the robot stops.
             # # getch() returns -1 if no key is pressed within the timeout.
+            # * Uncomment the next 3 lines to make the robot stop when no keys are pressed
             # elif key == -1:
             #     action = "Stopped       "
             #     robot.stop()
