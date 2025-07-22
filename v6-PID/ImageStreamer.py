@@ -103,52 +103,32 @@ class ImageStreamer:
             sys.stderr.write("Image streamer stopped.\n")
 
 def main():
+    import WebcamMod
+    import utils
+
     """Main function to demonstrate the ImageStreamer."""
     streamer = ImageStreamer(port=8000)
     streamer.start()
 
     print("\n--- Starting Webcam Feed ---")
     print("Streaming from webcam. Press Ctrl+C to stop.")
-    cap = cv2.VideoCapture(0) # Use camera index 0
-    if not cap.isOpened():
-        print("Error: Could not open webcam.")
-        streamer.stop()
-        return
-
-    import utils
-
-    # def process_image(img):
-    #     """
-    #     Placeholder for image processing.
-    #     Replace this with your actual image processing logic.
-    #     For demonstration, it just converts to grayscale.
-    #     """
-    #     # Example: Convert to grayscale
-    #     # gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    #     # return cv2.cvtColor(gray_img, cv2.COLOR_GRAY2BGR) # Convert back to BGR for streaming
-    #     return img # Return original for now
 
     try:
         while True:
-            ret, frame = cap.read()
-            if not ret:
-                print("Error: Can't receive frame (stream end?). Exiting ...")
-                break
-
-            # Process the captured frame
+            # Get the frame using your function
+            frame = WebcamMod.getImg()
+        
             thresholdImage = utils.thresholding(frame)
             h, w, c = frame.shape
-            points = utils.initWarpPointsArray([76, 60, 15, 161])
+            points = utils.initWarpPointsArray([15, 100, 100, 15])
             processed_frame = utils.warpImg(thresholdImage, points, w, h)
 
-
             # Update the streamer with the processed frame
-            streamer.update_image(processed_frame)
+            streamer.update_image(processed_frame) # Changed to stream the warped image
 
     except KeyboardInterrupt:
         print("\nStopping...")
     finally:
-        cap.release()
         streamer.stop()
 
 
