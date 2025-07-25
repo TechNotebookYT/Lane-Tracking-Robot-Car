@@ -91,6 +91,37 @@ class MotorController():
         GPIO.output(self.rightMotorsForward, False)
         GPIO.output(self.rightMotorsReverse, True)
 
+    def steer(self, speed, steering_input):
+        """
+        Steers the car by adjusting the speed of the left and right motors.
+        
+        Args:
+            speed (int): The base forward speed (0-100).
+            steering_input (float): A value between -1.0 (full left) and 1.0 (full right).
+                                    0.0 means straight.
+        """
+        # Ensure steering_input is within valid range
+        steering_input = max(-1.0, min(1.0, steering_input))
+
+        # Calculate differential speed for left and right motors
+        # If steering_input is positive (right turn), right motor slows down, left speeds up
+        # If steering_input is negative (left turn), left motor slows down, right speeds up
+        left_speed = speed * (1 + steering_input)
+        right_speed = speed * (1 - steering_input)
+
+        # Clamp speeds to 0-100
+        left_speed = max(0, min(100, left_speed))
+        right_speed = max(0, min(100, right_speed))
+
+        self.leftMotorsPWM.ChangeDutyCycle(int(left_speed * self.leftBias))
+        self.rightMotorsPWM.ChangeDutyCycle(int(right_speed * self.rightBias))
+
+        # Always move forward
+        GPIO.output(self.leftMotorsForward, True)
+        GPIO.output(self.leftMotorsReverse, False)
+        GPIO.output(self.rightMotorsForward, True)
+        GPIO.output(self.rightMotorsReverse, False)
+
     # Stops all wheels
     def stop(self):
         self.leftMotorsPWM.ChangeDutyCycle(0)
