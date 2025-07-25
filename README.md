@@ -39,8 +39,7 @@ Dependencies are managed with the [Astral.sh uv tool](https://astral.sh/uv), (f
 git clone https://github.com/TechNotebookYT/Lane-Tracking-Robot-Car.git
 cd Lane-Tracking-Robot-Car
 
-# 2. Install uv (see https://astral.sh/uv) and sync dependencies
-uv run {filename}
+# 2. Install uv (see https://astral.sh/uv)
 
 ```
 
@@ -60,19 +59,13 @@ cd v6-PID
 uv run python main.py
 ```
 
-> If you’re iterating and want to skip the auto‑sync step, append `--no-sync`:
->
-> ```bash
-> uv run --no-sync python main.py
-> ```
-
 ## Demo Videos
 
-* **v5 (Threshold‑based) Demo**\\
+* **v5 (Threshold‑based) Demo**
 
 [![No PID](https://img.youtube.com/vi/7RflPm-o-J4/0.jpg)](https://www.youtube.com/watch?v=7RflPm-o-J4)
 
-**v6 (PID‑based) Demo**\\
+**v6 (PID‑based) Demo**
 
 [![PID Controller](https://img.youtube.com/vi/XqOyrmPmw9Y/0.jpg)](https://www.youtube.com/watch?v=XqOyrmPmw9Y)
 
@@ -84,7 +77,6 @@ uv run python main.py
 
 *Figure 2: Real‑time lane overlay*
 
-*Add more images under **`docs/images/`** as needed.*
 
 ## Contact
 
