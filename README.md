@@ -27,15 +27,32 @@ The goal was to create a simple and affordable robotics platform. The Raspberry 
 * **uv Package Manager**: To ensure a fast, clean, and reproducible development environment, all dependencies (listed in `pyproject.toml`) are managed with a single command.
 
 ### Finished Hardware:
- 
+
+## Chassis Layout
+
+The robot’s chassis was custom‑designed and 3D‑printed to precise specifications.  
+It is structured into three distinct tiers:
+
+- **Bottom Level (under the robot)**  
+  This tier houses the four DC motors and the L298N dual H‑bridge motor controller, forming the drive train and steering mechanism.
+
+- **Middle Level**  
+  Here sits the Raspberry Pi, along with extra space reserved for future sensor additions (e.g., IMUs, ultrasonic or LiDAR modules).
+
+- **Upper Level**  
+  This top deck holds the battery pack and the USB webcam, providing power and visual input to the system.
+  
 <p align="center">
-  <img alt="Figure 1: Robot car setup" src="https://github.com/TechNotebookYT/Lane-Tracking-Robot-Car/raw/main/assets/car.jpg" width="45%">
-  &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="Figure 2: Real-time lane overlay" src="https://github.com/TechNotebookYT/Lane-Tracking-Robot-Car/raw/main/assets/lane_overlay.png" width="45%">
+  <img alt="Figure 3: Bottom view of robot car" src="assets/bottom.jpg" width="30%">
+  &nbsp; &nbsp; &nbsp;
+  <img alt="Figure 4: Upper view of robot car" src="assets/upper.jpg" width="30%">
+  &nbsp; &nbsp; &nbsp;
+  <img alt="Figure 5: Raspberry Pi setup" src="assets/pi.jpg" width="30%">
 </p>
 <p align="center">
-  <em>Figure 1: The robot car setup. &nbsp; &nbsp; &nbsp; &nbsp; Figure 2: The real-time lane overlay from the car's perspective.</em>
+  <em>Left: L298N Motor Controller & 4 Motors &nbsp;&nbsp;&nbsp; Middle: Power Bank, Motor Battery Pack, and Webcam &nbsp;&nbsp;&nbsp; Right: Raspberry Pi</em>
 </p>
+
 ---
 
 ## v5 (Frame Threshold)
