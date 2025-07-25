@@ -117,8 +117,10 @@ uv automatically downloads all dependencies and creates a virtual environment
     ```
 ---
 
-## Contact & Future Improvements
+## Future Improvements
 
 Future improvements could include using more advanced path-planning algorithms, training a neural network for lane detection, or adding obstacle avoidance.
+
+## Contact Info
 
 For questions or feedback, feel free to open an issue on GitHub or email me at [**technotebook@yahoo.com**](mailto:technotebook@yahoo.com).
