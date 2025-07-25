@@ -30,18 +30,17 @@ Dependencies are managed with the [Astral.sh uv tool](https://astral.sh/uv), gi
 ## Features
 
 * **Real‑time lane detection** via USB webcam + OpenCV
-* **Two control modes**: threshold‑based (v5) and PID+centroid (v6)
+* **Two control modes**: frame threshold‑based (v5) and PID+centroid (v6)
 * **L298N dual H‑bridge** for DC motor control
-* **Light, battery‑powered chassis**
-* **One‑command setup** with `uv sync` + `uv run`
+* **One‑command setup** with `uv run`
 
 ## Hardware Requirements
 
 * Raspberry Pi 3 Model B+
 * L298N Motor Driver
-* Two 6 V DC motors + wheels
-* USB webcam (e.g. Logitech C270)
-* 5–6 V battery pack
+* Four 6 V DC motors + wheels
+* USB webcam
+* 9-10V battery pack
 * Jumper wires & chassis
 
 ## Software Requirements
@@ -91,9 +90,11 @@ uv run python main.py
 
 * **v5 (Threshold‑based) Demo**\\
 
-* **v6 (PID‑based) Demo**\\
+[![No PID](https://img.youtube.com/vi/7RflPm-o-J4/0.jpg)](https://www.youtube.com/watch?v=7RflPm-o-J4)
 
-*Replace **`YOUR_V5_VIDEO_ID`** & **`YOUR_V6_VIDEO_ID`** with your actual YouTube IDs.*
+**v6 (PID‑based) Demo**\\
+
+[![PID Controller](https://img.youtube.com/vi/XqOyrmPmw9Y/0.jpg)](https://www.youtube.com/watch?v=XqOyrmPmw9Y)
 
 ## Screenshots
 
