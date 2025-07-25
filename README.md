@@ -1,23 +1,5 @@
 # Raspberry Pi Lane Tracking Robot Car
 
-## Table of Contents
-
-* [Project Overview](#project-overview)
-* [Features](#features)
-* [Hardware Requirements](#hardware-requirements)
-* [Software Requirements](#software-requirements)
-* [Installation](#installation)
-* [Usage](#usage)
-
-  * [Non‑PID Version — v5](#non‑pid-version-ndash-v5)
-  * [PID Version — v6](#pid-version-ndash-v6)
-* [Demo Videos](#demo-videos)
-* [Screenshots](#screenshots)
-* [Project Structure](#project-structure)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
-
 ## Project Overview
 
 A line‑tracking robot car powered by a Raspberry Pi 3 B+, L298N driver, and OpenCV.
@@ -25,7 +7,7 @@ A line‑tracking robot car powered by a Raspberry Pi 3 B+, L298N driver, and 
 * **v5 (Non‑PID)** uses simple frame‑threshold logic: if pixels appear on one side, the car steers to the other.
 * **v6 (PID)** computes the lane centroid and feeds it through a PID controller for smoother tracking.
 
-Dependencies are managed with the [Astral.sh uv tool](https://astral.sh/uv), giving you fast installs and reproducible environments.
+Dependencies are managed with the [Astral.sh uv tool](https://astral.sh/uv), (fast installs & reproducible environment).
 
 ## Features
 
@@ -58,10 +40,8 @@ git clone https://github.com/TechNotebookYT/Lane-Tracking-Robot-Car.git
 cd Lane-Tracking-Robot-Car
 
 # 2. Install uv (see https://astral.sh/uv) and sync dependencies
-uv sync
+uv run {filename}
 
-# (Optional) Activate venv
-source .venv/bin/activate
 ```
 
 ## Usage
