@@ -25,6 +25,16 @@ The goal was to create a simple and affordable robotics platform. The Raspberry 
 * **OpenCV**
 * **uv Package Manager**: To ensure a fast, clean, and reproducible development environment, all dependencies (listed in `pyproject.toml`) are managed with a single command.
 
+### Finished Hardware:
+ 
+<p align="center">
+  <img alt="Figure 1: Robot car setup" src="https://github.com/TechNotebookYT/Lane-Tracking-Robot-Car/raw/main/assets/car.jpg" width="45%">
+  &nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Figure 2: Real-time lane overlay" src="https://github.com/TechNotebookYT/Lane-Tracking-Robot-Car/raw/main/assets/lane_overlay.png" width="45%">
+</p>
+<p align="center">
+  <em>Figure 1: The robot car setup. &nbsp; &nbsp; &nbsp; &nbsp; Figure 2: The real-time lane overlay from the car's perspective.</em>
+</p>
 ---
 
 ## v5 (Frame Threshold)
@@ -39,13 +49,13 @@ The initial camera-based version, **v5**, was built on a simple and intuitive pr
 
 [![No PID](https://img.youtube.com/vi/7RflPm-o-J4/0.jpg)](https://www.youtube.com/watch?v=7RflPm-o-J4)
 
-*As you can see in the demo, the threshold-based approach leads to jerky, inefficient movement. The next version fixes this*
+*The threshold-based approach leads to jerky, inefficient movement. The next version fixes this*
 
 ---
 
 ## v6 (PID Control)
 
-Version **v6** incorporates a **Proportional-Integral-Derivative (PID) controller**, a cornerstone of control systems engineering.
+Version **v6** incorporates a **Proportional-Integral-Derivative (PID) controller**.
 
 **How it works:** Instead of just reacting to the presence of lane lines, this version calculates the precise center of the lane (the "centroid"). This centroid position becomes the input for the PID controller, which continuously calculates the "error" between the car's current position and the desired center. It then adjusts the steering smoothly to minimize this error over time.
 
@@ -63,7 +73,6 @@ Version **v6** incorporates a **Proportional-Integral-Derivative (PID) controlle
 
 ---
 
-## Get Started Yourself!
 
 ### Installation
 
@@ -76,6 +85,8 @@ Version **v6** incorporates a **Proportional-Integral-Derivative (PID) controlle
 
 ### Usage
 
+uv automatically downloads all dependencies and creates a virtual environment
+
 * **To run the non-PID version:**
     ```bash
     cd v5-cv_NO_PID
@@ -86,23 +97,9 @@ Version **v6** incorporates a **Proportional-Integral-Derivative (PID) controlle
     cd v6-PID
     uv run python main.py
     ```
-
 ---
 
-## Screenshots
-
-<p align="center">
-  <img alt="Figure 1: Robot car setup" src="https://github.com/TechNotebookYT/Lane-Tracking-Robot-Car/raw/main/assets/car.jpg" width="45%">
-  &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="Figure 2: Real-time lane overlay" src="https://github.com/TechNotebookYT/Lane-Tracking-Robot-Car/raw/main/assets/lane_overlay.png" width="45%">
-</p>
-<p align="center">
-  <em>Figure 1: The robot car setup. &nbsp; &nbsp; &nbsp; &nbsp; Figure 2: The real-time lane overlay from the car's perspective.</em>
-</p>
-
----
-
-## Contact & Future Directions
+## Contact & Future Improvements
 
 Future improvements could include using more advanced path-planning algorithms, training a neural network for lane detection, or adding obstacle avoidance.
 
