@@ -1,49 +1,51 @@
 from MotorController import MotorController
 import cv2
-from LaneDetection import getLaneCurve
+from LaneDetection import getLaneCurve, PID_control
 import WebcamMod
 from ImageStreamer import ImageStreamer
 import time
+from utils import print_slider
  
 # Initialize MotorController
+# --- ⚙️ PIN CONFIGURATION ---
+# !!! IMPORTANT !!!
+# Replace these placeholder pin numbers with the actual BCM pin numbers (https://pinout.xyz)
+# you have connected to your motor driver.
+# Format: (Enable Pin, Forward Pin, Reverse Pin)
 car = MotorController((2, 3, 4), (22, 27, 17), leftBias=1, rightBias=1)
 
- 
-def main():
+def main(movement_enabled=False):
     img = WebcamMod.getImg() # Get image from WebcamMod module
     curveVal, frame = getLaneCurve(img) # calculate lane curve
     streamer.update_image(frame)
-    
-    threshold_to_turn = 30 # Threshold for when to turn the robot
-    
-    # Check to turn right
-    if curveVal > threshold_to_turn:
-        car.turnRight(speed=35)
-        # time.sleep(0.03)
-        print("turnright")
-    
-    # Check to turn left
-    elif curveVal < -threshold_to_turn:
-        car.turnLeft(speed=35)
-        # time.sleep(0.03)
-        print("turnleft")
 
-    else:
-        car.moveForward(speed=30)
+    # print(curveVal)
+    steer_val = PID_control(curveVal, reset = (not movement_enabled))
+
+    print_slider(steer_val) # Print slider to show detection
+
+    if movement_enabled:
+        car.steer(30, steer_val)
 
 try: 
     if __name__ == '__main__':
         streamer = ImageStreamer(port=8000)
         streamer.start()
-        print("5 seconds til robot starts")
-        time.sleep(5)
+        
+        # Read camera for the first 5 seconds without motor control
+        start_time = time.time()
+        print("Reading camera for 5 seconds...")
+        while time.time() - start_time < 5:
+            main() # Call main to update image streamer
+            time.sleep(0.01) # Small delay to avoid busy-waiting
+
+        print("Motor control enabled.")
         
         while True:
-            main()
-            # time.sleep(0.05)
-            # cv2.waitKey(7) # Needed to display elements on screen
+            main(movement_enabled=True)
+            time.sleep(0.01) # Small delay to avoid busy-waiting
 finally:
     car.stop() # Stops the Car
     time.sleep(0.2)
     # car.exit() # ! Runs Pin Cleanup script (for some reason my pi acts weird when this line run)
-    streamer.stop() # Stops the Image Streamer
+    streamer.stop() # Stops the Image Streamer  
