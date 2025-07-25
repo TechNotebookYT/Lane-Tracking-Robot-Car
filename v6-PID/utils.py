@@ -31,3 +31,32 @@ def initWarpPointsArray(values, wT=360, hT=240):
     
     return np.float32([(widthTop, heightTop), (wT-widthTop, heightTop),
                       (widthBottom , heightBottom ), (wT-widthBottom, heightBottom)])
+
+def print_slider(value):
+    """
+    Prints a text-based slider to visualize a value between -1 and 1.
+
+    Args:
+        value (float): A number between -1.0 (left) and 1.0 (right).
+    """
+    # Ensure the value is clamped between -1 and 1
+    value = max(-1.0, min(1.0, value))
+
+    # Define the appearance of the slider
+    bar_width = 25  # Total characters for the bar (use an odd number for a perfect center)
+    filler_char = '.'
+    indicator_char = '|'
+
+    # Map the value from the [-1, 1] range to an index in the bar
+    # 1. Normalize the value to a [0, 1] range
+    normalized_value = (value + 1) / 2
+    # 2. Scale to the bar's width and round to the nearest whole number
+    indicator_pos = round(normalized_value * (bar_width - 1))
+
+    # Create the slider string
+    bar_list = [filler_char] * bar_width
+    bar_list[indicator_pos] = indicator_char
+    bar_string = "".join(bar_list)
+    
+    # Print the final result, formatting the value to two decimal places
+    print(f"<{bar_string}> {{{value:.2f}}}")
