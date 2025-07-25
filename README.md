@@ -22,6 +22,7 @@ The goal was to create a simple and affordable robotics platform. The Raspberry 
 
 ### **Software Stack:**
 * **Python 3.10+**:
+* **Raspberry Pi OS Lite 64-bit**
 * **OpenCV**
 * **uv Package Manager**: To ensure a fast, clean, and reproducible development environment, all dependencies (listed in `pyproject.toml`) are managed with a single command.
 
