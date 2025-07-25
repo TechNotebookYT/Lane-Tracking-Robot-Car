@@ -1,20 +1,21 @@
 import cv2
- 
-vCapture = cv2.VideoCapture(0) # Captures from USB Webcam
 
-# Retrieves Image from Camera & Resizes
-def getImg(imgSize=[360,240]): #prev (420x240)
+# open camera once
+vCapture = cv2.VideoCapture(0)
+# request 360×240 frames directly
+vCapture.set(cv2.CAP_PROP_FRAME_WIDTH, 360)
+vCapture.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+
+def getImg():
     success, img = vCapture.read()
-    img = cv2.resize(img,(imgSize[0],imgSize[1]))
+    if not success:
+        return None
     return img
-
-
-def showImg(img, name):
-    cv2.imshow(name,img)
 
 # Camera Test Script
 if __name__ == '__main__':
-    while True:
-        img = getImg()
-        showImg(img, 'img')
-        cv2.waitKey(50)
+    pass
+    # while True:
+    #     img = getImg()
+    #     showImg(img, 'img')
+    #     cv2.waitKey(50)
